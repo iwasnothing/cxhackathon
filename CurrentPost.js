@@ -3,7 +3,7 @@ import * as React from 'react';
 import {Image, StyleSheet, Text, View, VrButton} from 'react-360';
 import {connect, setVar} from './Store';
 import {PostButton} from './TopPosts';
-
+import GazeButton from "react-360-gaze-button";
 /**
  * Render a description of the currently-selected model.
  * Connected to the global store to receive inputs.
@@ -27,6 +27,7 @@ const CurrentPost = props => {
     </View>
     );
   } else if (props.current == 0) {
+    console.log("model", props.current);
     return (
       <View style={styles.wrapper}>
         <View style={{flex: 1, justifyContent: 'center'}}>
@@ -38,85 +39,84 @@ const CurrentPost = props => {
     );
   } else if (props.current == 1) {
     //var price = 100;
+    console.log("current ", props.current);
     return (
       <View style={styles.wrapper}>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.postButtonLabel}>
-            <Text style={{textAlign: 'center'}}>Current Price: ${props.price}</Text>
+            <Text style={{textAlign: 'center'}}>Current Price: $100</Text>
           </View>
-          <VrButton
+          <GazeButton
+            duration={2000}
             style={styles.postButton}
             onClick={() => setVar('price',props.price+10)}
-            >
+            render={(remainingTime, isGazed) => (
             <View style={styles.postButtonLabel}>
               <Text style={{textAlign: 'center'}}>Place Bid</Text>
             </View>
-            </VrButton>
+          )}/>
         </View>
       </View>
     );
   } else if (props.current == 2) {
-
+    console.log("model", props.current);
     return (
       <View style={styles.wrapper}>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.postButtonLabel}>
             <Text style={{textAlign: 'center'}}>Selct your Meals</Text>
           </View>
-          <VrButton
+          <GazeButton
+            duration={2000}
             style={styles.postButton}
             onClick={() => setVar('menuid',1)}
-            >
+            render={(remainingTime, isGazed) => (
             <View style={styles.postButtonLabel}>
               <Text style={{textAlign: 'center'}}>Set A</Text>
             </View>
-            </VrButton>
-            <VrButton
+            )}/>
+            <GazeButton
+              duration={2000}
               style={styles.postButton}
               onClick={() => setVar('menuid',2)}
-              >
+              render={(remainingTime, isGazed) => (
               <View style={styles.postButtonLabel}>
                 <Text style={{textAlign: 'center'}}>Set B</Text>
               </View>
-              </VrButton>
+              )}/>
         </View>
       </View>
     );
-  } else {
-
-    console.log("selct 0 ",props.current);
-    var seatCol = ['A','B','C'];
+  } else  {
+    console.log("model", props.current);
     return (
       <View style={styles.wrapper}>
-        <View style={{flex: 10, justifyContent: 'center'}}>
-          <Text style={{textAlign: 'center'}}>Select your seat</Text>
-        </View>
-
-        {Array(8).fill().map((_, i) => (
-        <View style={{flex: 10,flexDirection: 'row', justifyContent: 'center'}}>
-        {seatCol.map( (a,j) => (
-        <VrButton
-          style={styles.postButton}
-          onClick={() => console.log("select 1")}
-          >
+        <View style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.postButtonLabel}>
-              <Text style={styles.postButtonName}>{i+1}{a}</Text>
+            <Text style={{textAlign: 'center'}}>Selct your Item</Text>
           </View>
-        </VrButton>
-        )) }
+          <GazeButton
+            duration={2000}
+            style={styles.postButton}
+            onClick={() => setVar('menuid',1)}
+            render={(remainingTime, isGazed) => (
+            <View style={styles.postButtonLabel}>
+              <Text style={{textAlign: 'center'}}>Gift A</Text>
+            </View>
+            )}/>
+            <GazeButton
+              duration={2000}
+              style={styles.postButton}
+              onClick={() => setVar('menuid',2)}
+            render={(remainingTime, isGazed) => (
+              <View style={styles.postButtonLabel}>
+                <Text style={{textAlign: 'center'}}>Gift B</Text>
+              </View>
+              )}/>
         </View>
-      ))}
       </View>
     );
   }
-  const post = props.posts[props.current];
-  return (
-    <View style={styles.wrapper}>
-      <Text style={styles.name}>{post.name}</Text>
-      <Text style={styles.author}>{post.author}</Text>
-      <Text style={styles.description}>{post.description}</Text>
-    </View>
-  );
 
 };
 

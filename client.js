@@ -6,32 +6,43 @@ import {Module} from 'react-360-web';
 var mode = 'nav';
 export const leftPanel = new Surface(300, 600, Surface.SurfaceShape.Flat);
 export const rightPanel = new Surface(300, 600, Surface.SurfaceShape.Flat);
+export const bottomPanel = new Surface(500, 50, Surface.SurfaceShape.Flat);
+export var r360 = undefined;
+
 function setmovie() {
   mode = 'movie'
 }
 class MyModule extends Module {
   //var leftP,rightP;
-  constructor(l,r) {
+  constructor(l,r,b) {
     super('MyModule');
     leftP = l;
     rightP = r;
+    bottomP = b;
   }
   clear_surface() {
-  console.log("surface resize")
-  leftP.resize(0,0);
-  rightP.resize(0,0);
-}
+    console.log("surface resize")
+    leftP.resize(0,0);
+    rightP.resize(0,0);
+    bottomP.resize(500,50);
+  }
+  resume_surface() {
+    r360.compositor.setBackground('./static_assets/360_plane.png');
+    leftP.resize(300,600);
+    rightP.resize(300,600);
+    bottomP.resize(0,0);
+  }
 }
 function init(bundle, parent, options = {}) {
 
-  const r360 = new ReactInstance(bundle, parent, {
+   r360 = new ReactInstance(bundle, parent, {
     fullScreen: true,
     raycasters: [SimpleRaycaster],
     cursorVisibility: 'visible',
     cursorEnabled: true,
     cursorAutoHide: false,
     nativeModules: [
-      new MyModule(leftPanel,rightPanel),
+      new MyModule(leftPanel,rightPanel,bottomPanel),
     ],
     ...options,
   });
@@ -43,6 +54,8 @@ function init(bundle, parent, options = {}) {
   leftPanel.setAngle(-0.6, 0);
   //const rightPanel = new Surface(300, 600, Surface.SurfaceShape.Flat);
   rightPanel.setAngle(0.6, 0);
+  bottomPanel.setAngle(0, -0.4);
+  bottomPanel.resize(0,0);
   r360.renderToSurface(
     r360.createRoot('TopPosts'),
     leftPanel,
@@ -50,6 +63,10 @@ function init(bundle, parent, options = {}) {
   r360.renderToSurface(
     r360.createRoot('CurrentPost'),
     rightPanel,
+  );
+  r360.renderToSurface(
+    r360.createRoot('VCR'),
+    bottomPanel,
   );
   r360.renderToLocation(
     r360.createRoot('ModelView'),

@@ -16,21 +16,25 @@ class PostButton extends React.Component {
   render() {
 
     return (
-      <VrButton
+      <GazeButton
+        duration={2000}
+      //<VrButton
         style={styles.postButton}
 
-        onEnter={() => setCurrent(this.props.index)}
-        onExit={() => this.setState({hover: false})}
-        onClick={() => setCurrent(this.props.index)}>
+        //onEnter={() => setCurrent(this.props.index)}
+        //onExit={() => this.setState({hover: false})}
+        onClick={() => setCurrent(this.props.index)}
 
-        <Image style={styles.postButtonPreview} source={asset(this.props.preview)} />
-        <View style={[styles.postButtonInfo, this.state.hover ? styles.postButtonInfoHover : null]}>
+        render={(remainingTime, isGazed) => (
+        <View>
+
           <View style={styles.postButtonLabel}>
             <Text style={styles.postButtonName}>{this.props.name}</Text>
           </View>
-
+          <Image style={styles.postButtonPreview} source={asset(this.props.preview)} />
         </View>
-      </VrButton  >
+      )}
+      />
     );
   }
 }

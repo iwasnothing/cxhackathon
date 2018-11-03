@@ -24,18 +24,20 @@ class ModelView extends React.Component {
   //var rotation = 0
 
   componentWillReceiveProps(nextProps) {
-    console.log("timer ", this.rotation);
+    console.log("timer ", this.state.rotation);
+    console.log("next ", nextProps.current);
     if (nextProps.current !== this.props.current) {
-      this.state.rotation.setValue(0);
+      console.log("start ", nextProps.current);
+      this.state.rotation.setValue(90);
       Animated.timing(this.state.rotation, {toValue: 360, duration: 20000}).start();
+    } else {
+      console.log("next ", nextProps.current);
+      //this.state.rotation.setValue(90);
     }
   }
 
   render() {
-    //this.rotation.setValue(0);
-    console.log("timer ", this.state.rotation);
-    //Animated.timing(this.rotation, {toValue: 360, duration: 20000}).start();
-    var self = this;
+
     if (!this.props.posts || this.props.current < 0) {
       //Environment.clearBackground();
       return (
@@ -83,7 +85,7 @@ class ModelView extends React.Component {
             style={{transform: [{translate: [0, 4, -1]}]}}
           />
           <AnimatedEntity
-            style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateZ: 20}] }}
+            style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation}] }}
             source={{     obj: asset('beer.obj'),
                           mtl: asset('beer.mtl')}}
           />
@@ -92,11 +94,18 @@ class ModelView extends React.Component {
 
     } else if (this.props.current == 2 ) {
       //Environment.clearBackground();
-      if ( this.props.menuid == 1) {
-          Environment.clearBackground();
-          console.log("model", this.props.current);
+
+      if ( !this.props.menuid || this.props.menuid == 1) {
+          //Environment.clearBackground();
+          console.log("model 1 ", this.props.current);
+          console.log("menu 1 ", this.props.menuid);
           return (
             <View>
+              <AmbientLight intensity={1.0} color={'#ffffff'} />
+              <PointLight
+                intensity={0.4}
+                style={{transform: [{translate: [0, 4, -1]}]}}
+              />
               <AnimatedEntity
                 style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateZ: 45}] }}
                 source={{     obj: asset('meal01.obj'),
@@ -106,9 +115,14 @@ class ModelView extends React.Component {
           );
       } else {
         //Environment.clearBackground();
-        console.log("model", this.props.current);
+        console.log("model 2 ", this.props.current);
         return (
           <View>
+            <AmbientLight intensity={1.0} color={'#ffffff'} />
+            <PointLight
+              intensity={0.4}
+              style={{transform: [{translate: [0, 4, -1]}]}}
+            />
             <AnimatedEntity
               style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateZ: 45}] }}
               source={{     obj: asset('meal02.obj'),
@@ -118,6 +132,23 @@ class ModelView extends React.Component {
         );
 
       }
+    } else if (this.props.current == 3 ) {
+      console.log("model", this.props.current);
+      return (
+        <View>
+          <AmbientLight intensity={1.0} color={'#ffffff'} />
+          <PointLight
+            intensity={0.4}
+            style={{transform: [{translate: [0, 4, -1]}]}}
+          />
+          <AnimatedEntity
+            style={{transform: [{scaleX: 0.6},{scaleY: 0.6},{rotateY: this.state.rotation},{rotateZ: 45}] }}
+            source={{     obj: asset('PerfumeBottle.obj'),
+                          mtl: asset('PerfumeBottle.mtl'),}}
+          />
+        </View>
+      );
+
     } else if (this.props.current == 4 ) {
       //NativeModules.CustomLinkingModule.openURL('https://example.net')
       //MyModule.leftP.resize(0,0);
@@ -136,9 +167,10 @@ class ModelView extends React.Component {
         </View>
       );
     } else {
+      console.log("model 5 ", this.props.current);
       return (
         <View>
-
+        <VrButton><View><Text> </Text></View></VrButton>
         </View>
       )
     }

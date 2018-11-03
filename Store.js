@@ -129,9 +129,9 @@ export function initialize(apiKey) {
     {id: 2, name: "Auction", preview: "hammar_pic.png"},
     {id: 3, name: "Meal", preview: "meal_pic.png"},
     {id: 4, name: "Shopping", preview: "gift_pic.png"},
-    {id: 5, name: "Movie", preview: ""},
+    {id: 5, name: "Movie", preview: "clapper.png"},
   ]
-  places.map(plc => insertObj(apiKey,plc,'ß'))
+  //places.map(plc => insertObj(apiKey,plc,'ß'))
   State.menuid = 1
 
 }
@@ -139,6 +139,7 @@ export function initialize(apiKey) {
 export function setCurrent(value) {
   console.log("store", value)
   State.current = value;
+  State.menuid = 1
   updateComponents();
 }
 
