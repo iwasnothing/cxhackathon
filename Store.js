@@ -1,5 +1,12 @@
 import * as React from 'react';
-
+import {
+  AppRegistry,
+  NativeModules,
+  StyleSheet,
+  Text,
+  View,
+  VrButton,
+} from 'react-360';
 /**
  * If you want to share data between multiple root components, you'll need a
  * global store like Redux. This is similar to building a web app where you
@@ -14,9 +21,14 @@ const State = {
   posts2: [],
   current: -1,
   menuid: 1,
+  joinedToilet: false,
+  price: 100,
 };
 
 const listeners = new Set();
+const Location = NativeModules.Location;
+
+
 
 function updateComponents() {
   for (const cb of listeners.values()) {
@@ -112,12 +124,12 @@ export function initialize(apiKey) {
 
 
   State.posts = [
-    {id: 1, name: "Toilet", preview: "toilet_pic.png"},
-    {id: 2, name: "Travel", preview: "earth_texture.jpg"},
-    {id: 3, name: "Auction", preview: "hammar_pic.png"},
-    {id: 4, name: "Meal", preview: "meal_pic.png"},
-    {id: 5, name: "Shopping", preview: "gift_pic.png"},
-    {id: 6, name: "Movie", preview: ""},
+    //{id: 1, name: "Toilet", preview: "toilet_pic.png"},
+    {id: 1, name: "Travel", preview: "earth_texture.jpg"},
+    {id: 2, name: "Auction", preview: "hammar_pic.png"},
+    {id: 3, name: "Meal", preview: "meal_pic.png"},
+    {id: 4, name: "Shopping", preview: "gift_pic.png"},
+    {id: 5, name: "Movie", preview: ""},
   ]
   places.map(plc => insertObj(apiKey,plc,'ß'))
   State.menuid = 1
@@ -130,6 +142,12 @@ export function setCurrent(value) {
   updateComponents();
 }
 
+export function setVar(varname,value) {
+  console.log("var", value)
+  State[varname] = value;
+  updateComponents();
+}
+
 export function connect(Component) {
   return class Wrapper extends React.Component {
     state = {
@@ -137,7 +155,9 @@ export function connect(Component) {
       posts1: State.posts1,
       posts2: State.posts2,
       current: State.current,
-      menuid: State.menuid
+      menuid: State.menuid,
+      joinedToilet: State.joinedToilet,
+      price: State.price,
     };
 
     _listener = () => {
@@ -146,12 +166,15 @@ export function connect(Component) {
         posts1: State.posts1,
         posts2: State.posts2,
         current: State.current,
-        menuid: State.menuid
+        menuid: State.menuid,
+        joinedToilet: State.joinedToilet,
+        price: State.price,
       });
     };
 
     componentDidMount() {
       listeners.add(this._listener);
+      console.log("my url",Location.search);
     }
 
     componentWillUnmount() {
@@ -167,6 +190,8 @@ export function connect(Component) {
           posts2={this.state.posts2}
           current={this.state.current}
           menuid={this.state.menuid}
+          joinedToilet={this.state.joinedToilet}
+          price={this.state.price}
         />
       );
     }

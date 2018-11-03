@@ -1,26 +1,89 @@
 import * as React from 'react';
 
 import {Image, StyleSheet, Text, View, VrButton} from 'react-360';
-import {connect} from './Store';
+import {connect, setVar} from './Store';
 import {PostButton} from './TopPosts';
 
 /**
  * Render a description of the currently-selected model.
  * Connected to the global store to receive inputs.
  */
+
 const CurrentPost = props => {
+//class CurrentPost extends React.Component {
+
+
   if (!props.posts) {
     return <View style={styles.wrapper} />;
   }
+
   if (props.current < 0) {
+    console.log("selct 2 ",props.current);
+    return (
+      <View style={styles.wrapper}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
+
+      </View>
+    </View>
+    );
+  } else if (props.current == 0) {
     return (
       <View style={styles.wrapper}>
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text style={{textAlign: 'center'}}>Select a Model</Text>
+          <View style={styles.postButtonLabel}>
+            <Text style={{textAlign: 'center'}}>Flight Information</Text>
+          </View>
         </View>
       </View>
     );
-  } else if (props.current == 0) {
+  } else if (props.current == 1) {
+    //var price = 100;
+    return (
+      <View style={styles.wrapper}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={styles.postButtonLabel}>
+            <Text style={{textAlign: 'center'}}>Current Price: ${props.price}</Text>
+          </View>
+          <VrButton
+            style={styles.postButton}
+            onClick={() => setVar('price',props.price+10)}
+            >
+            <View style={styles.postButtonLabel}>
+              <Text style={{textAlign: 'center'}}>Place Bid</Text>
+            </View>
+            </VrButton>
+        </View>
+      </View>
+    );
+  } else if (props.current == 2) {
+
+    return (
+      <View style={styles.wrapper}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={styles.postButtonLabel}>
+            <Text style={{textAlign: 'center'}}>Selct your Meals</Text>
+          </View>
+          <VrButton
+            style={styles.postButton}
+            onClick={() => setVar('menuid',1)}
+            >
+            <View style={styles.postButtonLabel}>
+              <Text style={{textAlign: 'center'}}>Set A</Text>
+            </View>
+            </VrButton>
+            <VrButton
+              style={styles.postButton}
+              onClick={() => setVar('menuid',2)}
+              >
+              <View style={styles.postButtonLabel}>
+                <Text style={{textAlign: 'center'}}>Set B</Text>
+              </View>
+              </VrButton>
+        </View>
+      </View>
+    );
+  } else {
+
     console.log("selct 0 ",props.current);
     var seatCol = ['A','B','C'];
     return (
@@ -45,16 +108,6 @@ const CurrentPost = props => {
       ))}
       </View>
     );
-  } else {
-    console.log("selct 2 ",props.current);
-    return (
-      <View style={styles.wrapper}>
-      <View style={{flex: 1, justifyContent: 'center'}}>
-
-      </View>
-    </View>
-    );
-
   }
   const post = props.posts[props.current];
   return (
@@ -64,6 +117,7 @@ const CurrentPost = props => {
       <Text style={styles.description}>{post.description}</Text>
     </View>
   );
+
 };
 
 const styles = StyleSheet.create({

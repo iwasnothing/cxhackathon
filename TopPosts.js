@@ -1,19 +1,28 @@
 import * as React from 'react';
 import {Image, StyleSheet, Text, View, VrButton, asset} from 'react-360';
 import {connect, setCurrent} from './Store';
+import GazeButton from "react-360-gaze-button";
 
 class PostButton extends React.Component {
   state = {
     hover: false,
+    gazed: false,
   };
 
+
+  setGazed = () => {
+    this.setState({ gazed: true });
+  };
   render() {
+
     return (
       <VrButton
         style={styles.postButton}
-        onEnter={() => this.setState({hover: true})}
+
+        onEnter={() => setCurrent(this.props.index)}
         onExit={() => this.setState({hover: false})}
         onClick={() => setCurrent(this.props.index)}>
+
         <Image style={styles.postButtonPreview} source={asset(this.props.preview)} />
         <View style={[styles.postButtonInfo, this.state.hover ? styles.postButtonInfoHover : null]}>
           <View style={styles.postButtonLabel}>
@@ -21,12 +30,13 @@ class PostButton extends React.Component {
           </View>
 
         </View>
-      </VrButton>
+      </VrButton  >
     );
   }
 }
 
 const TopPosts = props => {
+
   if (!props.posts) {
     return (
       <View style={styles.wrapper}>
@@ -37,6 +47,7 @@ const TopPosts = props => {
 
   return (
     <View style={styles.wrapper}>
+
       {props.posts.map((post, i) => (
         <PostButton
           key={post.id}
@@ -45,6 +56,7 @@ const TopPosts = props => {
           preview={post.preview}
         />
       ))}
+
     </View>
   );
 };
@@ -89,7 +101,26 @@ const styles = StyleSheet.create({
   },
   postButtonAuthor: {
     fontSize: 16,
-  }
+  },
+
+    panel: {
+      // Fill the entire surface
+      width: 1000,
+      height: 600,
+      backgroundColor: "rgba(255, 255, 255, 0.4)",
+      justifyContent: "center",
+      alignItems: "center"
+    },
+    greetingBox: {
+      padding: 0,
+      backgroundColor: "#000000",
+      borderColor: "#639dda",
+      borderWidth: 1
+    },
+    greeting: {
+      fontSize: 8
+    }
+
 });
 
 const ConnectedTopPosts = connect(TopPosts);
