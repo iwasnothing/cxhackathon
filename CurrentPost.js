@@ -44,6 +44,9 @@ const CurrentPost = props => {
       <View style={styles.wrapper}>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.postButtonLabel}>
+            <Text style={{textAlign: 'center'}}>Business Class Wine list</Text>
+          </View>
+          <View style={styles.postButtonLabel}>
             <Text style={{textAlign: 'center'}}>Current Price: $100</Text>
           </View>
           <GazeButton

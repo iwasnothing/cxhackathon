@@ -107,7 +107,7 @@ class ModelView extends React.Component {
                 style={{transform: [{translate: [0, 4, -1]}]}}
               />
               <AnimatedEntity
-                style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateZ: 45}] }}
+                style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateX: -3}] }}
                 source={{     obj: asset('meal01.obj'),
                               mtl: asset('meal01.mtl'),}}
               />
@@ -124,7 +124,7 @@ class ModelView extends React.Component {
               style={{transform: [{translate: [0, 4, -1]}]}}
             />
             <AnimatedEntity
-              style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateZ: 45}] }}
+              style={{transform: [{scaleX: 6},{scaleY: 6},{rotateY: this.state.rotation},{rotateX: -3}] }}
               source={{     obj: asset('meal02.obj'),
                             mtl: asset('meal02.mtl'),}}
             />
